@@ -24,8 +24,31 @@ class BankAccountTest {
 
     @Test
     void isEmailValidTest(){
-        assertTrue(BankAccount.isEmailValid( "a@b.com"));   // valid email address
-        assertFalse( BankAccount.isEmailValid(""));         // empty string
+        assertTrue(BankAccount.isEmailValid( "a@abc.com"));   // valid email address
+        assertTrue(BankAccount.isEmailValid("abc@abc.edu")); // valid email address with new TLD
+        assertTrue(BankAccount.isEmailValid("a.b@abc.com"));
+        assertTrue(BankAccount.isEmailValid("abc+tag@abc.com"));   // valid email address with tag
+        assertTrue(BankAccount.isEmailValid("a.b+tag@abc.com"));
+        assertTrue(BankAccount.isEmailValid("!#$%&'*+-/=.?^_`{|}~@example.com")); // valid email address with special characters
+        assertTrue(BankAccount.isEmailValid("address\"Why is this Legal?@#@#@#\"@abc.com"));                         // Ususlly not allowed
+        assertTrue(BankAccount.isEmailValid("!#$%&'*+-/=.?^_`{|}~@[1.0.0.127]"));                                    // Ususlly not allowed
+        assertTrue(BankAccount.isEmailValid("!#$%&'*+-/=.?^_`{|}~@[IPv6:0123:4567:89AB:CDEF:0123:4567:89AB:CDEF]")); // Ususlly not allowed
+        assertTrue(BankAccount.isEmailValid("a.b(Email is a strange Format)@abc.com"));                              // Ususlly not allowed
+
+
+
+
+        
+        assertFalse( BankAccount.isEmailValid(""));      // empty string
+        assertFalse( BankAccount.isEmailValid("abc"));   // no @ sign
+        assertFalse( BankAccount.isEmailValid("@n"));    // no character before @
+        assertFalse( BankAccount.isEmailValid("a..b@abc.com"));   // two consecutive dots
+        assertFalse( BankAccount.isEmailValid(".a@abc.com"));  // starts with a dot
+        assertFalse( BankAccount.isEmailValid("a.@abc.com")); // ends with a dot
+        assertFalse( BankAccount.isEmailValid("abc\\@abc.com")); // cannot end with a \
+        assertFalse( BankAccount.isEmailValid("a@abc.c"));     // TLD with only 1 letter
+        assertFalse( BankAccount.isEmailValid("spaces\\ must\\ be\\ within\\ quotes\\ even\\ when\\ escaped@example.com")); // spaces must be within quotes, even when escaped
+        assertFalse( BankAccount.isEmailValid("abc@abc@abc.c")); // two @ signs This si only allowed inside quotes
 
         
     }
