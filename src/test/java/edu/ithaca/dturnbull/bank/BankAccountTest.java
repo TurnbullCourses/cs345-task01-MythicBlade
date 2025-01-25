@@ -24,10 +24,15 @@ class BankAccountTest {
 
     @Test
     void isEmailValidTest(){
+        //standard email address
         assertTrue(BankAccount.isEmailValid( "a@abc.com"));   // valid email address
+        //new TLD, but isn't really necessary
         assertTrue(BankAccount.isEmailValid("abc@abc.edu")); // valid email address with new TLD
+        //Testing if dots break the validity
         assertTrue(BankAccount.isEmailValid("a.b@abc.com"));
+        //Testing if plusses break the validity
         assertTrue(BankAccount.isEmailValid("abc+tag@abc.com"));   // valid email address with tag
+        //multiple special characters
         assertTrue(BankAccount.isEmailValid("a.b+tag@abc.com"));
         //assertTrue(BankAccount.isEmailValid("!#$%&'*+-/=.?^_`{|}~@example.com")); // valid email address with special characters
         //assertTrue(BankAccount.isEmailValid("address\"Why is this Legal?@#@#@#\"@abc.com"));                         // Ususlly not allowed
