@@ -19,6 +19,16 @@ public class BankAccount {
     }
 
     public double getBalance(){
+        
+        String text = Double.toString(Math.abs(balance));
+        int integerPlaces = text.indexOf('.');
+        int decimalPlaces = text.length() - integerPlaces - 1;
+        if (decimalPlaces > 2){
+            throw new IllegalArgumentException("Balance has more than 2 decimal places");
+        }
+        if (balance < 0){
+            throw new IllegalArgumentException("Balance is negative");
+        }
         return balance;
     }
 
@@ -30,6 +40,10 @@ public class BankAccount {
      * @post reduces the balance by amount if amount is non-negative and smaller than balance
      */
     public void withdraw (double amount) throws InsufficientFundsException{
+        if (amount <= 0){
+            throw new IllegalArgumentException("Cannot withdraw negative amount or nothing at all");
+        }
+        
         if (amount <= balance){
             balance -= amount;
         }
@@ -40,6 +54,7 @@ public class BankAccount {
 
 
     public static boolean isEmailValid(String email){
+        
         String specialCharacters = "!#$%&'*+/=?^_`{|}~.\\/";
 
         int atCount = 0;
