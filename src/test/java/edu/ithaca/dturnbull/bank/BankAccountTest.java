@@ -54,6 +54,37 @@ class BankAccountTest {
     }
 
     @Test
+    void isEmailValidOwensVersionTest(){
+        assertTrue(BankAccount.isEmailValidOwensVersion("a@abc.com"));   // valid email address
+        assertTrue(BankAccount.isEmailValidOwensVersion("abc@abc.edu")); // valid email address with new TLD
+        assertTrue(BankAccount.isEmailValidOwensVersion("a.b@abc.com"));
+        assertTrue(BankAccount.isEmailValidOwensVersion("abc+tag@abc.com"));   // valid email address with tag
+        assertTrue(BankAccount.isEmailValidOwensVersion("a.b+tag@abc.com"));
+        assertTrue(BankAccount.isEmailValidOwensVersion("a!#$%&'*+-/=.?^_`{|}~s@example.com")); // valid email address with special characters
+        //assertTrue(BankAccount.isEmailValidOwensVersion("address\"Why is this Legal?@#@#@#\"@abc.com"));                               // Almost never allowed
+        assertTrue(BankAccount.isEmailValidOwensVersion("a!#$%&'*+-/=.?^_`{|}~s@[1.0.0.127]"));                                    // Ususlly not allowed
+        assertTrue(BankAccount.isEmailValidOwensVersion("a!#$%&'*+-/=.?^_`{|}~s@[IPv6:0123:4567:89AB:CDEF:0123:4567:89AB:CDEF]")); // Ususlly not allowed
+        //assertTrue(BankAccount.isEmailValidOwensVersion("a.b(Email is a strange Format)s@abc.com"));                                   // Almost never allowed
+
+
+
+
+        
+        assertFalse( BankAccount.isEmailValidOwensVersion(""));                 // empty string
+        assertFalse( BankAccount.isEmailValidOwensVersion("abc"));              // no @ sign
+        assertFalse( BankAccount.isEmailValidOwensVersion("@n"));               // no character before @
+        assertFalse( BankAccount.isEmailValidOwensVersion("a..b@abc.com"));     // two consecutive dots
+        assertFalse( BankAccount.isEmailValidOwensVersion(".a@abc.com"));       // starts with a dot
+        assertFalse( BankAccount.isEmailValidOwensVersion("a.@abc.com"));       // ends with a dot
+        assertFalse( BankAccount.isEmailValidOwensVersion("abc\\@abc.com"));    // cannot end with a \
+        assertFalse( BankAccount.isEmailValidOwensVersion("a@abc.c"));          // TLD with only 1 letter
+        assertFalse( BankAccount.isEmailValidOwensVersion("spaces\\ must\\ be\\ within\\ quotes\\ even\\ when\\ escaped@example.com")); // spaces must be within quotes, even when escaped
+        assertFalse( BankAccount.isEmailValidOwensVersion("abc@abc@abc.c"));    // two @ signs This si only allowed inside quotes
+
+        
+    }
+
+    @Test
     void constructorTest() {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
 

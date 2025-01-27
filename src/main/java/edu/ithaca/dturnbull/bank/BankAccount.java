@@ -47,4 +47,16 @@ public class BankAccount {
             return true;
         }
     }
+
+    public static boolean isEmailValidOwensVersion(String email){
+        var emailRegex = "(?=.*\\w@.*)(?!.*\\.\\..*)^\\w[\\w!#$%&'*+-/=.?^_`{|}~]*(\\+\\w+)?@(([\\w-]+\\.\\w\\w+)|(\\[(IPv4:)?\\d\\d?\\d?\\.\\d\\d?\\d?\\.\\d\\d?\\d?\\.\\d\\d?\\d?\\])|(\\[(IPv6:)(([A-Z\\d][A-Z\\d][A-Z\\d][A-Z\\d]:?)*)\\]))";
+
+        if (email.matches(emailRegex)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 }
