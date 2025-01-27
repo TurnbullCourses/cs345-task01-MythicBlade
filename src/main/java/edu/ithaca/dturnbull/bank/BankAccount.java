@@ -43,6 +43,8 @@ public class BankAccount {
 
     /**
      * @post reduces the balance by amount if amount is non-negative and smaller than balance
+     * @throws IllegalArgumentException if withdraw amount is negative or zero
+     * @throws InsufficientFundsException if withdraw amount is greater than balance
      */
     public void withdraw (double amount) throws InsufficientFundsException{
         if (amount <= 0){
