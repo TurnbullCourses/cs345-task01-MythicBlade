@@ -11,7 +11,7 @@ public class BankAccount {
     public BankAccount(String email, double startingBalance){
         if (isEmailValid(email)){
             this.email = email;
-            if (startingBalance <= 0){
+            if (startingBalance >= 0){
                 this.balance = startingBalance;
         }
             else {
