@@ -119,9 +119,4 @@ public class BankAccount {
             return false;
         }
     }
-
-    public static boolean isAmountValid(double amount){
-            return false;
-    }
-
 }
