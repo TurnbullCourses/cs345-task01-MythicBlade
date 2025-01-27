@@ -11,7 +11,12 @@ public class BankAccount {
     public BankAccount(String email, double startingBalance){
         if (isEmailValid(email)){
             this.email = email;
-            this.balance = startingBalance;
+            if (startingBalance >= 0){
+                this.balance = startingBalance;
+        }
+            else {
+                throw new IllegalArgumentException("Starting balance cannot be negative");
+            }
         }
         else {
             throw new IllegalArgumentException("Email address: " + email + " is invalid, cannot create account");
@@ -39,6 +44,8 @@ public class BankAccount {
 
     /**
      * @post reduces the balance by amount if amount is non-negative and smaller than balance
+     * @throws IllegalArgumentException if withdraw amount is negative or zero
+     * @throws InsufficientFundsException if withdraw amount is greater than balance
      */
     public void withdraw (double amount) throws InsufficientFundsException{
         if (amount <= 0){
@@ -101,4 +108,20 @@ public class BankAccount {
 
             return true;
     }
+
+    public static boolean isEmailValidOwensVersion(String email){
+        var emailRegex = "(?=.*\\w@.*)(?!.*\\.\\..*)^\\w[\\w!#$%&'*+-/=.?^_`{|}~]*(\\+\\w+)?@(([\\w-]+\\.\\w\\w+)|(\\[(IPv4:)?\\d\\d?\\d?\\.\\d\\d?\\d?\\.\\d\\d?\\d?\\.\\d\\d?\\d?\\])|(\\[(IPv6:)(([A-Z\\d][A-Z\\d][A-Z\\d][A-Z\\d]:?)*)\\]))";
+
+        if (email.matches(emailRegex)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public static boolean isAmountValid(double amount){
+            return false;
+    }
+
 }
