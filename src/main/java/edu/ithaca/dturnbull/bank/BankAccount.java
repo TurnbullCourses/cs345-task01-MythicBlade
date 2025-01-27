@@ -23,6 +23,7 @@ public class BankAccount {
         String text = Double.toString(Math.abs(balance));
         int integerPlaces = text.indexOf('.');
         int decimalPlaces = text.length() - integerPlaces - 1;
+
         if (decimalPlaces > 2){
             throw new IllegalArgumentException("Balance has more than 2 decimal places");
         }
