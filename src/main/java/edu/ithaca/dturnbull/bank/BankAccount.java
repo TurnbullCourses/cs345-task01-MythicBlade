@@ -21,10 +21,16 @@ public class BankAccount {
         }
     }
 
-    public double getBalance(){
+    /**
+     * @returns account balance
+     */
+    public double getBalance() {
         return balance;
     }
 
+    /**
+     * @returns account email
+     */
     public String getEmail() {
         return email;
     }
@@ -47,6 +53,9 @@ public class BankAccount {
         }
     }
 
+    /**
+     * @returns False email is not valid.
+     */
     public static boolean isEmailValid(String email) {
 
         String specialCharacters = "!#$%&'*+/=?^_`{|}~.\\/";
@@ -103,6 +112,9 @@ public class BankAccount {
         }
     }
 
+    /**
+     * @returns False if withdraw amount is negative or zero or has too many decimal places
+     */
     public static boolean isAmountValid(double amount) {
         String text = Double.toString(Math.abs(amount));
         int integerPlaces = text.indexOf('.');
@@ -113,6 +125,10 @@ public class BankAccount {
         return true;
     }
 
+    /**
+     * @post deposits the amount into the account
+     * @throws IllegalArgumentException   if withdraw amount is negative or zero or has too many decimal places
+     */
     public void deposit(double amount) {
         if (isAmountValid(amount)) {
             this.balance += amount;
@@ -121,5 +137,14 @@ public class BankAccount {
         }
     }
 
+    /**
+     * @post reduces the balance of the account and tranfers the funds to provided account
+     * @throws IllegalArgumentException   if withdraw amount is negative or zero or has too many decimal places
+     * @throws InsufficientFundsException if withdraw amount is greater than balance
+     */
+    public void transfer(BankAccount account, double amount) throws InsufficientFundsException {
+        this.withdraw(amount);
+        account.deposit(amount);
+    }
 
 }
