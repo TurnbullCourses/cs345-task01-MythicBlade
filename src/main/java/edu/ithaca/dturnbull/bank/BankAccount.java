@@ -21,7 +21,18 @@ public class BankAccount {
         }
     }
 
-    public double getBalance() {
+    public double getBalance(){
+        
+        String text = Double.toString(Math.abs(balance));
+        int integerPlaces = text.indexOf('.');
+        int decimalPlaces = text.length() - integerPlaces - 1;
+
+        if (decimalPlaces > 2){
+            throw new IllegalArgumentException("Balance has more than 2 decimal places");
+        }
+        if (balance < 0){
+            throw new IllegalArgumentException("Balance is negative");
+        }
         return balance;
     }
 
