@@ -113,4 +113,13 @@ public class BankAccount {
         return true;
     }
 
+    public void deposit(double amount) {
+        if (isAmountValid(amount)) {
+            this.balance += amount;
+        } else {
+            throw new IllegalArgumentException("Cannot deposit invalid amount");
+        }
+    }
+
+
 }
