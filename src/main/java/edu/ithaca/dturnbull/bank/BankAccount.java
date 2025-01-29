@@ -36,8 +36,7 @@ public class BankAccount {
     }
 
     /**
-     * @post reduces the balance by amount if amount is non-negative and smaller
-     *       than balance
+     * @post reduces the balance by amount if amount is non-negative and smaller than balance
      * @throws IllegalArgumentException   if withdraw amount is negative or zero
      * @throws InsufficientFundsException if withdraw amount is greater than balance
      */
@@ -54,7 +53,7 @@ public class BankAccount {
     }
 
     /**
-     * @returns False email is not valid.
+     * @returns True or false depending on the email validity
      */
     public static boolean isEmailValid(String email) {
 
@@ -103,7 +102,15 @@ public class BankAccount {
     }
 
     public static boolean isEmailValidOwensVersion(String email) {
-        var emailRegex = "(?=.*\\w@.*)(?!.*\\.\\..*)^\\w[\\w!#$%&'*+-/=.?^_`{|}~]*(\\+\\w+)?@(([\\w-]+\\.\\w\\w+)|(\\[(IPv4:)?\\d\\d?\\d?\\.\\d\\d?\\d?\\.\\d\\d?\\d?\\.\\d\\d?\\d?\\])|(\\[(IPv6:)(([A-Z\\d][A-Z\\d][A-Z\\d][A-Z\\d]:?)*)\\]))";
+        // regex to check email validity
+        /*This regex handles most email cases but there are many cases in email that are not covered.
+        It will also allow some email cases that are not commonly allowed so some services may not accept them
+        */
+        var emailRegex = ("(?=.*\\w@.*)(?!.*\\.\\..*)" //check for pattern before the @ and check for doubled dots
+        + "^\\w[\\w!#$%&'*+-/=.?^_`{|}~]*(\\+\\w+)?@" //check for valid characters before the @ including the address not starting with a special character
+        + "(([\\w-]+\\.\\w\\w+)" // check for domain name with a dot and 2 letters
+        + "|(\\[(IPv4:)?\\d\\d?\\d?\\.\\d\\d?\\d?\\.\\d\\d?\\d?\\.\\d\\d?\\d?\\])|" //check for IPv4 address
+        + "(\\[(IPv6:)(([A-Z\\d][A-Z\\d][A-Z\\d][A-Z\\d]:?)*)\\]))"); //check for IPv6 address
 
         if (email.matches(emailRegex)) {
             return true;
@@ -113,7 +120,8 @@ public class BankAccount {
     }
 
     /**
-     * @returns False if withdraw amount is negative or zero or has too many decimal places
+     * @returns False if withdraw amount is negative or zero or has more than two
+     *          decimal places
      */
     public static boolean isAmountValid(double amount) {
         String text = Double.toString(Math.abs(amount));
@@ -127,7 +135,7 @@ public class BankAccount {
 
     /**
      * @post deposits the amount into the account
-     * @throws IllegalArgumentException   if withdraw amount is negative or zero or has too many decimal places
+     * @throws IllegalArgumentException if withdraw amount is negative or zero or has too many decimal places
      */
     public void deposit(double amount) {
         if (isAmountValid(amount)) {
@@ -143,7 +151,19 @@ public class BankAccount {
      * @throws InsufficientFundsException if withdraw amount is greater than balance
      */
     public void transfer(BankAccount account, double amount) throws InsufficientFundsException {
+        //check if account is null
+        if (account == null) {
+            throw new IllegalArgumentException("Account cannot be null");
+        }
+        //check if account is the same as this account
+        if (account == this) {
+            throw new IllegalArgumentException("Cannot transfer to same account");
+        }
+        // withdraw from this account
+        // this will throw an exception if amount is invalid or insufficient funds
         this.withdraw(amount);
+        // deposit into other account
+        // this should be done second so that it is not done if the withdraw fails
         account.deposit(amount);
     }
 
